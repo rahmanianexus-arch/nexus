@@ -1,165 +1,220 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Users, Truck, Car, Utensils, Wrench, Briefcase, ChevronRight } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { motion, AnimatePresence } from "framer-motion";
+import { Users, Truck, Car, Utensils, Wrench, Briefcase, ChevronDown, CheckCircle2 } from "lucide-react";
+
+const services = [
+  {
+    id: "manpower",
+    title: "Manpower Supply",
+    icon: Users,
+    tagline: "Skilled Workforce for Every Industrial Demand",
+    desc: "Skilled, semi-skilled and unskilled workforce for all industrial and commercial sectors — rigorously screened and deployment-ready.",
+    categories: [
+      {
+        name: "Electro Mechanical",
+        items: ["Pipe Fabricator", "Pipe Fitter", "Millwright", "Instrument Technician", "Instrument Electrical", "TIG & Arc Welder", "6G & 3G Welder", "Rigger II TUV Certified", "Scaffolder TUV Certified"],
+      },
+      {
+        name: "Supervisors / Inspectors",
+        items: ["Civil Surveyor", "Safety Inspectors", "Electrical Supervisor/Foreman", "Instrument Supervisor", "Piping Supervisor/Foreman", "Mechanical Supervisor", "Structural Supervisor", "Rigging Supervisor", "Material Coordinator", "Auto CAD Operator"],
+      },
+      {
+        name: "Engineers / QA/QC",
+        items: ["Mechanical Engineer", "Civil Engineer", "Safety Manager", "Electrical Instrumentation", "Piping Engineer", "Structural Engineer", "Planning & Scheduling", "Estimation", "Quality Control"],
+      },
+      {
+        name: "General Workforce",
+        items: ["Light Driver", "Heavy Driver", "Mechanic Helper", "Crane Operator Aramco*", "Forklift Operator Aramco*", "Bobcat Operator Aramco*", "Manlift Operator Aramco*", "Boom Truck Operator Aramco*"],
+      },
+      {
+        name: "Civil Workforces",
+        items: ["Mason", "Steel Fixer", "Plumber", "Painter", "Carpenter"],
+      },
+      {
+        name: "Pre-Deployment Checks",
+        items: ["Exact Documentation", "Behaviour Interviews", "Legal Status Verification", "Reference Checking", "Training & Certification"],
+      },
+    ],
+  },
+  {
+    id: "equipment",
+    title: "Equipment Rental",
+    icon: Wrench,
+    tagline: "Modern Machinery, Delivered On Time",
+    desc: "Wide range of modern, well-maintained equipment and machinery on rental basis to support projects of all sizes across Saudi Arabia.",
+    categories: [
+      { name: "Earthmoving", items: ["Excavators", "Loaders", "Backhoes", "Bulldozers", "Graders"] },
+      { name: "Lifting", items: ["Mobile Cranes", "Crawler Cranes", "Truck Cranes", "Forklifts"] },
+      { name: "Access & Handling", items: ["Scissor Lifts", "Boom Lifts", "Telehandlers", "Manlifts"] },
+      { name: "Power & Support", items: ["Generators", "Air Compressors", "Welding Machines", "Light Towers"] },
+      { name: "Heavy Transport", items: ["Low Bed Trailers", "Flat Bed Trailers", "Drum Trucks", "Attachments & Breakers"] },
+      { name: "Key Advantages", items: ["Latest technology fleet", "Regular inspection & maintenance", "Flexible short/long-term rental", "Safety compliant equipment", "24/7 technical support"] },
+    ],
+  },
+  {
+    id: "transport",
+    title: "Car Rental & Transport",
+    icon: Car,
+    tagline: "Fleet Solutions Across the Kingdom",
+    desc: "Reliable vehicles and transport solutions tailored to your business, projects, and operational needs across Saudi Arabia.",
+    categories: [
+      { name: "Vehicle Fleet", items: ["Economy Sedan", "SUV", "Pickup Truck", "Mini Bus (15–30 Seater)", "Bus (30–55 Seater)"] },
+      { name: "Transport & Tankers", items: ["Low Bed Trailers", "Flat Bed & Drum Trucks", "Water Tanker", "Diesel Tanker"] },
+      { name: "Transport Solutions", items: ["Corporate Travel", "Staff Transportation", "Construction Projects", "Facility Management", "Events & Conferences", "Airport Transfers"] },
+      { name: "Key Advantages", items: ["Well maintained fleet", "24/7 support", "Flexible rental plans", "On-time delivery"] },
+    ],
+  },
+  {
+    id: "hospitality",
+    title: "Hospitality Services",
+    icon: Utensils,
+    tagline: "Professional Service Beyond Expectations",
+    desc: "Providing professional and dedicated hospitality workforce to deliver exceptional guest experiences across hotels and catering facilities.",
+    categories: [
+      { name: "Hotel Staffing", items: ["Hotel Staffing Solutions", "Housekeeping Staff", "Cleaners"] },
+      { name: "Food & Beverage", items: ["Waiters & Stewards", "Kitchen Helpers", "Catering Support Services"] },
+      { name: "Front of House", items: ["Reception & Front Desk", "Guest Relations", "Concierge Support"] },
+      { name: "Key Advantages", items: ["Trained professionals", "Premium service delivery", "Guest satisfaction priority"] },
+    ],
+  },
+  {
+    id: "industrial",
+    title: "Industrial / Petro",
+    icon: Truck,
+    tagline: "Specialized Workforce for Oil & Gas",
+    desc: "Specialized support for oil & gas and petrol station projects with skilled manpower, trained to the highest safety and quality standards.",
+    categories: [
+      { name: "Oil & Gas Support", items: ["Specialized technical manpower", "Aramco-certified operators", "Safety officers (certified)", "Work Permit Receivers (Aramco*)"] },
+      { name: "Petrol Stations", items: ["Trained fuel station operators", "Customer-focused staff", "Adherence to safety & quality", "Smooth daily operations"] },
+      { name: "Key Advantages", items: ["Professional people", "Exceptional service", "Safety & quality standards", "Strict KSA compliance"] },
+    ],
+  },
+  {
+    id: "business",
+    title: "Business Support",
+    icon: Briefcase,
+    tagline: "Operational Excellence for Your Back Office",
+    desc: "Professional administrative and operational support services for businesses operating in Saudi Arabia.",
+    categories: [
+      { name: "Admin Support", items: ["Document Controllers", "Admin Assistants", "Office Support Staff", "Office Boys"] },
+      { name: "Technical & Finance", items: ["Planning Engineers", "Accountants", "Scheduling Specialists", "Estimation Professionals"] },
+      { name: "Key Advantages", items: ["Vetted professionals", "Seamless integration", "Operational efficiency", "Cost-effective solutions"] },
+    ],
+  },
+];
 
 export function Services() {
-  const services = [
-    {
-      id: "manpower",
-      title: "Manpower Supply",
-      icon: Users,
-      desc: "Skilled, semi-skilled and unskilled workforce for all industrial and commercial sectors.",
-      features: [
-        { name: "Electro Mechanical", items: "Pipe Fabricator, Pipe Fitter, Millwright, Instrument Technician, TIG & Arc Welder, Scaffolders" },
-        { name: "Supervisors/Inspectors", items: "Civil Surveyor, Safety Inspectors, Electrical/Mechanical Supervisors, Rigging Supervisor" },
-        { name: "Engineers/QA/QC", items: "Mechanical, Civil, Safety Manager, Electrical Instrumentation, Planning, Quality Control" },
-        { name: "General Workforce", items: "Light/Heavy Driver, Crane Operator Aramco*, Forklift Operator Aramco*, Manlift Operator" },
-        { name: "Civil Workforces", items: "Mason, Steel Fixer, Plumber, Painter, Carpenter" },
-        { name: "Pre-deployment", items: "Exact Documentation, Behaviour Interviews, Legal Status Verification, Training" },
-      ]
-    },
-    {
-      id: "equipment",
-      title: "Equipment Rental",
-      icon: Truck,
-      desc: "Wide range of modern, well-maintained equipment and machinery on rental basis.",
-      features: [
-        { name: "Earthmoving", items: "Excavators, Loaders, Backhoes, Bulldozers, Graders" },
-        { name: "Lifting", items: "Mobile Cranes, Crawler Cranes, Truck Cranes, Forklifts" },
-        { name: "Access & Handling", items: "Scissor Lifts, Boom Lifts, Telehandlers, Manlifts" },
-        { name: "Power & Support", items: "Generators, Air Compressors, Welding Machines, Light Towers" },
-        { name: "Heavy Transport", items: "Low Bed Trailers, Attachments, Breakers, Buckets" },
-        { name: "Key Features", items: "Modern Fleet, Flexible Rental (Short/Long Term), Safety First, 24/7 Support" },
-      ]
-    },
-    {
-      id: "transport",
-      title: "Car Rental & Transport",
-      icon: Car,
-      desc: "Reliable vehicles and transport solutions tailored to your business, projects, and operational needs across Saudi Arabia.",
-      features: [
-        { name: "Vehicle Fleet", items: "Economy Sedan, SUV, Pickup Truck, Mini Bus, Bus (30-50 Seater)" },
-        { name: "Transport & Tankers", items: "Trailers (Low/Flat Bed), Water Tanker, Diesel Tanker, Rental Cars & Pickups" },
-        { name: "Solutions", items: "Corporate Travel, Staff Transportation, Construction Projects, Airport Transfers" },
-        { name: "Key Features", items: "Well Maintained Fleet, 24/7 Support, Flexible Rental Plans, On-Time Delivery" },
-      ]
-    },
-    {
-      id: "hospitality",
-      title: "Hospitality Services",
-      icon: Utensils,
-      desc: "Providing professional and dedicated hospitality workforce to deliver exceptional guest experiences.",
-      features: [
-        { name: "Services", items: "Hotel Staffing Solutions, Housekeeping Staff, Cleaners, Waiters & Stewards" },
-        { name: "Support Staff", items: "Reception & Front Desk, Kitchen Helpers, Catering Support Services" },
-        { name: "Key Features", items: "Trained Professionals, Premium Service, Guest Satisfaction Our Priority" },
-      ]
-    },
-    {
-      id: "industrial",
-      title: "Industrial / Petro",
-      icon: Wrench,
-      desc: "Specialized support for oil & gas projects with skilled manpower and technical solutions.",
-      features: [
-        { name: "Oil & Gas Support", items: "Specialized manpower and technical solutions for major petroleum projects" },
-        { name: "Petrol Stations", items: "Providing trained, reliable and customer-focused manpower across the Kingdom" },
-        { name: "Key Features", items: "Professional People, Exceptional Service, Safety & Quality Standards" },
-      ]
-    },
-    {
-      id: "business",
-      title: "Business Support",
-      icon: Briefcase,
-      desc: "Professional administrative and operational support service for businesses in Saudi Arabia.",
-      features: [
-        { name: "Admin Support", items: "Document control, Admin assistants, and office support staff" },
-        { name: "Technical Support", items: "Planning engineers, Accountants, Specialized operational staff" },
-        { name: "Key Features", items: "Vetted Professionals, Seamless Integration, Operational Efficiency" },
-      ]
-    }
-  ];
+  const [activeId, setActiveId] = useState("manpower");
+  const active = services.find((s) => s.id === activeId)!;
 
   return (
-    <section id="services" className="py-24 relative overflow-hidden">
-      <div className="absolute right-0 top-1/4 w-1/2 h-1/2 bg-primary/5 blur-[120px] pointer-events-none rounded-full" />
-      
-      <div className="container px-4 md:px-6 relative z-10">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-sm font-bold tracking-widest text-primary uppercase mb-3">Our Services</h2>
-            <h3 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-6">
-              Integrated Solutions
-            </h3>
-            <p className="text-muted-foreground text-lg">
-              Comprehensive operational support spanning across specialized domains to ensure your project's success.
-            </p>
-          </motion.div>
+    <section id="services" className="py-20 md:py-28 bg-[#050816] relative overflow-hidden">
+      {/* Subtle background grid */}
+      <div
+        className="absolute inset-0 opacity-[0.025]"
+        style={{
+          backgroundImage: "linear-gradient(rgba(30,167,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(30,167,255,1) 1px, transparent 1px)",
+          backgroundSize: "80px 80px",
+        }}
+      />
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-[#1EA7FF] opacity-[0.04] blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="container mx-auto px-4 md:px-8 lg:px-12 relative z-10">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-12"
+        >
+          <div className="flex items-center gap-4 mb-4">
+            <div className="h-px w-12 bg-[#1EA7FF]" />
+            <span className="text-[#1EA7FF] text-xs font-bold tracking-[0.25em] uppercase">Our Services</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold font-display text-white leading-tight">
+            Integrated Solutions for<br className="hidden md:block" />
+            <span className="text-[#1EA7FF]"> Every Project Demand</span>
+          </h2>
+        </motion.div>
+
+        {/* Service tabs — horizontal scroll on mobile */}
+        <div className="overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 mb-8">
+          <div className="flex gap-2 min-w-max md:min-w-0 md:flex-wrap">
+            {services.map((s) => {
+              const Icon = s.icon;
+              const isActive = s.id === activeId;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => setActiveId(s.id)}
+                  data-testid={`button-service-tab-${s.id}`}
+                  className={`flex items-center gap-2.5 px-5 py-3 text-sm font-bold tracking-wide uppercase rounded-sm transition-all duration-200 whitespace-nowrap border ${
+                    isActive
+                      ? "bg-[#1EA7FF] text-white border-[#1EA7FF] shadow-[0_0_20px_rgba(30,167,255,0.3)]"
+                      : "bg-transparent text-[#E5E7EB]/60 border-[#1EA7FF]/15 hover:border-[#1EA7FF]/40 hover:text-white"
+                  }`}
+                >
+                  <Icon size={15} />
+                  {s.title}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        <Tabs defaultValue="manpower" className="w-full">
-          <div className="overflow-x-auto pb-4 mb-8 custom-scrollbar">
-            <TabsList className="w-full flex md:justify-center justify-start min-w-max bg-transparent h-auto p-0 gap-2">
-              {services.map((service) => {
-                const Icon = service.icon;
-                return (
-                  <TabsTrigger
-                    key={service.id}
-                    value={service.id}
-                    className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground bg-card border border-border px-6 py-4 rounded-xl flex items-center gap-3 transition-all hover:border-primary/50"
-                  >
-                    <Icon size={18} />
-                    <span className="font-medium whitespace-nowrap">{service.title}</span>
-                  </TabsTrigger>
-                );
-              })}
-            </TabsList>
-          </div>
-
-          {services.map((service) => (
-            <TabsContent key={service.id} value={service.id} className="mt-0 focus-visible:outline-none">
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="bg-card border border-border rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden"
-              >
-                <div className="grid lg:grid-cols-[1fr_2fr] gap-12 relative z-10">
-                  <div>
-                    <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6 shadow-[0_0_20px_rgba(30,167,255,0.15)]">
-                      <service.icon size={32} />
-                    </div>
-                    <h4 className="text-3xl font-display font-bold text-foreground mb-4">
-                      {service.title}
-                    </h4>
-                    <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-                      {service.desc}
-                    </p>
-                  </div>
-                  
-                  <div className="grid sm:grid-cols-2 gap-6 bg-background/50 rounded-2xl p-6 border border-border/50">
-                    {service.features.map((feature, idx) => (
-                      <div key={idx} className="space-y-2">
-                        <h5 className="font-bold text-foreground text-sm flex items-center gap-2">
-                          <ChevronRight size={16} className="text-primary" />
-                          {feature.name}
-                        </h5>
-                        <p className="text-sm text-muted-foreground leading-relaxed pl-6">
-                          {feature.items}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
+        {/* Active service panel */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeId}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.35 }}
+            className="border border-[#1EA7FF]/15 bg-[#0B1220] rounded-sm overflow-hidden"
+          >
+            {/* Panel header */}
+            <div className="border-b border-[#1EA7FF]/10 p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6">
+              <div className="flex items-center gap-5">
+                <div className="w-14 h-14 bg-[#1EA7FF]/10 rounded-sm flex items-center justify-center text-[#1EA7FF] shrink-0">
+                  <active.icon size={28} />
                 </div>
-              </motion.div>
-            </TabsContent>
-          ))}
-        </Tabs>
+                <div>
+                  <h3 className="font-bold font-display text-white text-xl md:text-2xl">{active.title}</h3>
+                  <p className="text-[#1EA7FF] text-xs font-medium tracking-widest uppercase">{active.tagline}</p>
+                </div>
+              </div>
+              <p className="text-[#E5E7EB]/60 text-sm md:text-base leading-relaxed md:ml-auto md:max-w-md">{active.desc}</p>
+            </div>
+
+            {/* Categories grid */}
+            <div className="p-6 md:p-8">
+              <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                {active.categories.map((cat, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.06 }}
+                    className="bg-[#050816] border border-[#1EA7FF]/10 rounded-sm p-5 hover:border-[#1EA7FF]/30 transition-colors"
+                  >
+                    <h4 className="text-[#1EA7FF] text-xs font-bold tracking-[0.15em] uppercase mb-4 flex items-center gap-2">
+                      <span className="w-4 h-px bg-[#1EA7FF]" />
+                      {cat.name}
+                    </h4>
+                    <ul className="space-y-2">
+                      {cat.items.map((item, j) => (
+                        <li key={j} className="flex items-start gap-2.5 text-[#E5E7EB]/70 text-sm">
+                          <CheckCircle2 size={13} className="text-[#1EA7FF]/60 mt-0.5 shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );

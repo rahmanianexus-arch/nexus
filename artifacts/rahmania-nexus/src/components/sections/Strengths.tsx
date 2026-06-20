@@ -1,62 +1,58 @@
 import { motion } from "framer-motion";
-import { UserCheck, Truck, ShieldCheck, Clock, HeartHandshake, TrendingUp } from "lucide-react";
+import { Users, Wrench, Award, Clock, Heart, TrendingUp } from "lucide-react";
+
+const strengths = [
+  { icon: Users, title: "Experienced Professionals", desc: "Highly skilled team with vast industry experience across Saudi Arabia's most demanding projects." },
+  { icon: Wrench, title: "Modern Equipment Fleet", desc: "Well maintained and advanced equipment covering earthmoving, lifting, power, and transport." },
+  { icon: Award, title: "Quality Assurance", desc: "Strict quality control and international standards compliance on every engagement." },
+  { icon: Clock, title: "Timely Delivery", desc: "On-time project completion with operational efficiency built into our deployment process." },
+  { icon: Heart, title: "Customer Focused", desc: "Client satisfaction is our top priority — we build long-term partnerships, not just contracts." },
+  { icon: TrendingUp, title: "Sustainable Growth", desc: "Committed to long-term partnerships and value creation aligned with Vision 2030." },
+];
 
 export function Strengths() {
-  const strengths = [
-    { icon: UserCheck, title: "Experienced Professionals", desc: "Highly skilled team with vast industry experience." },
-    { icon: Truck, title: "Modern Equipment Fleet", desc: "Well maintained and advanced equipment for every need." },
-    { icon: ShieldCheck, title: "Quality Assurance", desc: "Strict quality control and international standards compliance." },
-    { icon: Clock, title: "Timely Delivery", desc: "On-time project completion with efficiency." },
-    { icon: HeartHandshake, title: "Customer Focused", desc: "Client satisfaction is our top priority in every project." },
-    { icon: TrendingUp, title: "Sustainable Growth", desc: "Committed to long-term partnerships and value creation." },
-  ];
-
   return (
-    <section className="py-24 bg-secondary/50 relative">
-      <div className="container px-4 md:px-6">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-sm font-bold tracking-widest text-primary uppercase mb-3">Why Choose Us</h2>
-            <h3 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-6">
-              Our Core Strengths
-            </h3>
-            <p className="text-muted-foreground text-lg">
-              We leverage our expertise and resources to deliver unmatched value to our partners.
-            </p>
-          </motion.div>
-        </div>
+    <section className="py-20 md:py-28 bg-[#0B1220] relative overflow-hidden">
+      <div className="h-px w-full absolute top-0 left-0 right-0 bg-gradient-to-r from-transparent via-[#1EA7FF]/20 to-transparent" />
+      <div className="absolute right-0 bottom-0 w-64 h-64 bg-[#1EA7FF] opacity-[0.04] blur-[80px] rounded-full pointer-events-none" />
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {strengths.map((strength, index) => {
-            const Icon = strength.icon;
+      <div className="container mx-auto px-4 md:px-8 lg:px-12">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-14"
+        >
+          <div className="flex items-center gap-4 mb-4">
+            <div className="h-px w-12 bg-[#1EA7FF]" />
+            <span className="text-[#1EA7FF] text-xs font-bold tracking-[0.25em] uppercase">Why Choose Us</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold font-display text-white leading-tight max-w-2xl">
+            Our Core Strengths
+          </h2>
+        </motion.div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {strengths.map((item, idx) => {
+            const Icon = item.icon;
             return (
               <motion.div
-                key={index}
+                key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group relative p-8 rounded-2xl bg-card border border-border hover:border-primary/50 overflow-hidden"
+                transition={{ delay: idx * 0.08 }}
+                className="group border border-[#1EA7FF]/10 bg-[#050816] rounded-sm p-6 md:p-8 hover:border-[#1EA7FF]/40 transition-all duration-300 relative overflow-hidden"
               >
-                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity transform group-hover:scale-110 duration-500 pointer-events-none">
-                  <Icon size={120} />
+                <div className="absolute top-4 right-4 text-6xl font-black text-[#1EA7FF]/[0.04] font-display select-none">
+                  {String(idx + 1).padStart(2, "0")}
                 </div>
-                <div className="relative z-10">
-                  <div className="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 border border-primary/20 shadow-[0_0_15px_rgba(30,167,255,0.1)]">
-                    <Icon size={28} />
-                  </div>
-                  <h4 className="text-xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                    {strength.title}
-                  </h4>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {strength.desc}
-                  </p>
+                <div className="w-11 h-11 bg-[#1EA7FF]/10 rounded-sm flex items-center justify-center text-[#1EA7FF] mb-5 group-hover:bg-[#1EA7FF]/20 transition-colors">
+                  <Icon size={22} />
                 </div>
+                <h3 className="font-bold font-display text-white text-lg mb-3 uppercase tracking-wide">{item.title}</h3>
+                <p className="text-[#E5E7EB]/55 text-sm leading-relaxed">{item.desc}</p>
+                <div className="mt-5 h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-[#1EA7FF] to-transparent transition-all duration-500 rounded-full" />
               </motion.div>
             );
           })}

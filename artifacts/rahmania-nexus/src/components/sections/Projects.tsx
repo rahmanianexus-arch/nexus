@@ -1,85 +1,135 @@
 import { motion } from "framer-motion";
+import { MapPin, Calendar, Users } from "lucide-react";
+
+const deploymentStats = [
+  { value: "16+", label: "Completed & Ongoing Projects" },
+  { value: "4500+", label: "Manpower Deployed" },
+  { value: "35+", label: "Active Clients" },
+  { value: "2017", label: "Year Established" },
+];
+
+const projects = [
+  { client: "Sinopec Engineering Company Ltd", project: "Yanbu Refinery", location: "Yanbu", period: "2017–2019", status: "Completed", roles: ["Work Permit Receiver", "Pipe Fabricator", "Pipe Fitter", "Carpenter", "Mason", "Steel Fixer", "Electrician"] },
+  { client: "Hyundai Livart", project: "Marjan Field Development", location: "Marjan", period: "2018–2020", status: "Completed", roles: ["Admin Assistant", "Document Controller", "Rigger Aramco", "Pipe Fitter", "Safety Officer", "Scaffolder TUV", "Electrician"] },
+  { client: "Hyundai E&C", project: "Marjan Field Development", location: "Marjan", period: "2019–2022", status: "Completed", roles: ["Electrician", "Rigger Aramco", "Steel Fixer", "Mason", "Carpenter"] },
+  { client: "Hyundai E&C", project: "Jafurah Gas Development", location: "Jafurah", period: "2022–Current", status: "Active", roles: ["Rigger Aramco", "Safety Officer", "Pipe Fitter", "Pipe Fabricator", "Helper"] },
+  { client: "SEPCO Arabia", project: "Ras Al Khayer", location: "Ras Al Khayer", period: "2021–2023", status: "Completed", roles: ["Civil Foreman", "Carpenter", "Mason", "Steel Fixer", "Helper"] },
+  { client: "Gusan Arabia LLC", project: "Marjan Field Development", location: "Marjan", period: "2021–2024", status: "Completed", roles: ["Mason", "Carpenter", "Steel Fixer", "Helper", "Safety Officer", "Scaffolder TUV"] },
+  { client: "Sinohydro", project: "Ras Al Khayer", location: "Ras Al Khayer", period: "2021–2023", status: "Completed", roles: ["Rigger Aramco", "Steel Fixer", "Carpenter", "Mason", "Electrician", "Plumber"] },
+  { client: "Gusan Arabia LLC", project: "Multi-Site Operations", location: "Saudi Arabia", period: "2023–2026", status: "Active", roles: ["Safety Officer Aramco", "WPR Aramco", "Carpenter", "Steel Fixer", "Mason", "Scaffolder TUV"] },
+  { client: "Hyundai E&C / Daisun", project: "Jafurah Gas Development", location: "Jafurah", period: "2022–Current", status: "Active", roles: ["Light Driver", "Rigger Aramco", "WPR Aramco", "Mechanical Technician", "Piping Supervisor"] },
+  { client: "Midong E&C", project: "Jafurah Gas Development", location: "Jafurah", period: "2022–2026", status: "Active", roles: ["Electrician", "Carpenter", "Scaffolder TUV", "Helper", "Electrical Supervisor"] },
+  { client: "Hyundai E&C", project: "Amiral Petrochemical", location: "Jubail", period: "2024–Current", status: "Active", roles: ["Rigger Aramco", "WPR Aramco", "Safety Officer", "Pipe Fabricator", "Pipe Fitter", "Electrician"] },
+  { client: "L&T Arabia LLC", project: "Jafurah Gas Development", location: "Jafurah", period: "2024–Current", status: "Active", roles: ["WPR Aramco", "Rigger Aramco", "Document Controller", "Piping Insulator", "Instrument Technician"] },
+  { client: "L&T Arabia LLC", project: "Jubail Fabricator Shop", location: "Jubail", period: "2023–Current", status: "Active", roles: ["Pipe Fabricator", "Pipe Fitter", "Helper"] },
+];
 
 export function Projects() {
-  const stats = [
-    { value: "16+", label: "Projects" },
-    { value: "4500+", label: "Manpower Deployed" },
-    { value: "35+", label: "Active Clients" },
-    { value: "2017", label: "Since" },
-  ];
-
-  const projects = [
-    { client: "Hyundai E&C", project: "Amiral", year: "2024–Current" },
-    { client: "L&T Arabia LLC", project: "Jafurah", year: "2024–Current" },
-    { client: "Gusan Arabia LLC", project: "Various", year: "2023–2026" },
-    { client: "L&T Arabia LLC", project: "Jubail Fabricator Shop", year: "2023–Current" },
-    { client: "Hyundai E&C / Daisun", project: "Jafurah", year: "2022–Current" },
-    { client: "Midong E&C", project: "Jafurah", year: "2022–2026" },
-    { client: "Hyundai E&C", project: "Jafurah", year: "2022–Current" },
-    { client: "Gusan Arabia LLC", project: "Marjan", year: "2021–2024" },
-    { client: "SEPCO Arabia", project: "Ras Al Khayer", year: "2021–2023" },
-    { client: "Sinohydro", project: "Ras Al Khayer", year: "2021–2023" },
-    { client: "Hyundai E&C", project: "Marjan", year: "2019–2022" },
-    { client: "Hyundai Livart", project: "Marjan", year: "2018–2020" },
-    { client: "Sinopec Engineering", project: "Yanbu", year: "2017–2019" },
-  ];
-
   return (
-    <section id="projects" className="py-24 relative bg-background overflow-hidden">
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
-      
-      <div className="container px-4 md:px-6 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="max-w-2xl"
-          >
-            <h2 className="text-sm font-bold tracking-widest text-primary uppercase mb-3">Our Track Record</h2>
-            <h3 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-6">
-              Project Experience
-            </h3>
-            <p className="text-muted-foreground text-lg">
-              Trusted by the biggest names in the industry to deliver on monumental scale.
-            </p>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-wrap gap-4 md:gap-8 bg-card/50 p-6 rounded-2xl border border-border backdrop-blur-sm"
-          >
-            {stats.map((stat, idx) => (
-              <div key={idx}>
-                <div className="text-2xl font-bold font-display text-primary">{stat.value}</div>
-                <div className="text-xs text-muted-foreground uppercase tracking-wider">{stat.label}</div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
+    <section id="projects" className="py-20 md:py-28 bg-[#050816] relative overflow-hidden">
+      <div
+        className="absolute inset-0 opacity-[0.025]"
+        style={{
+          backgroundImage: "linear-gradient(rgba(30,167,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(30,167,255,1) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {projects.map((proj, idx) => (
+      <div className="container mx-auto px-4 md:px-8 lg:px-12 relative z-10">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-12"
+        >
+          <div className="flex items-center gap-4 mb-4">
+            <div className="h-px w-12 bg-[#1EA7FF]" />
+            <span className="text-[#1EA7FF] text-xs font-bold tracking-[0.25em] uppercase">Project Experience</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold font-display text-white leading-tight mb-3">
+            Deployment Record
+          </h2>
+          <p className="text-[#E5E7EB]/50 text-base max-w-xl">
+            Trusted by leading EPC contractors and industrial operators across Saudi Arabia since 2017.
+          </p>
+        </motion.div>
+
+        {/* Stats bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-2 lg:grid-cols-4 border border-[#1EA7FF]/15 rounded-sm mb-10 overflow-hidden"
+        >
+          {deploymentStats.map((s, i) => (
+            <div
+              key={i}
+              className={`py-5 px-6 text-center ${i !== deploymentStats.length - 1 ? "border-b lg:border-b-0 lg:border-r border-[#1EA7FF]/10" : ""}`}
+            >
+              <div className="text-3xl font-black font-display text-[#1EA7FF] mb-1">{s.value}</div>
+              <div className="text-[#E5E7EB]/50 text-xs uppercase tracking-wide font-medium">{s.label}</div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Projects grid */}
+        <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+          {projects.map((p, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.05 }}
-              className="bg-card border border-border p-6 rounded-xl hover:border-primary/50 transition-colors group relative overflow-hidden"
+              transition={{ delay: (idx % 6) * 0.07 }}
+              className="border border-[#1EA7FF]/10 bg-[#0B1220] rounded-sm p-5 hover:border-[#1EA7FF]/35 transition-all group"
             >
-              <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="text-xs font-bold text-primary mb-2 tracking-wider">{proj.year}</div>
-              <h4 className="text-lg font-bold font-display text-foreground mb-1 group-hover:text-primary transition-colors">
-                {proj.client}
-              </h4>
-              <p className="text-sm text-muted-foreground">
-                {proj.project}
-              </p>
+              {/* Header row */}
+              <div className="flex items-start justify-between gap-3 mb-4">
+                <div>
+                  <h3 className="text-white font-bold text-sm uppercase tracking-wide font-display leading-tight mb-1">{p.client}</h3>
+                  <p className="text-[#1EA7FF] text-xs font-medium">{p.project}</p>
+                </div>
+                <span
+                  className={`shrink-0 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-sm border ${
+                    p.status === "Active"
+                      ? "text-[#1EA7FF] border-[#1EA7FF]/30 bg-[#1EA7FF]/10"
+                      : "text-[#E5E7EB]/40 border-[#E5E7EB]/10 bg-[#E5E7EB]/5"
+                  }`}
+                >
+                  {p.status}
+                </span>
+              </div>
+
+              {/* Meta */}
+              <div className="flex flex-wrap gap-3 text-[#E5E7EB]/40 text-xs mb-4">
+                <span className="flex items-center gap-1.5">
+                  <MapPin size={11} />
+                  {p.location}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Calendar size={11} />
+                  {p.period}
+                </span>
+              </div>
+
+              {/* Roles */}
+              <div>
+                <div className="flex items-center gap-1.5 text-[#E5E7EB]/30 text-[10px] uppercase tracking-wider mb-2">
+                  <Users size={10} />
+                  Roles Deployed
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {p.roles.slice(0, 5).map((role, ri) => (
+                    <span key={ri} className="text-[10px] text-[#E5E7EB]/55 bg-[#1EA7FF]/5 border border-[#1EA7FF]/10 px-2 py-0.5 rounded-sm">
+                      {role}
+                    </span>
+                  ))}
+                  {p.roles.length > 5 && (
+                    <span className="text-[10px] text-[#1EA7FF]/60 px-2 py-0.5">+{p.roles.length - 5} more</span>
+                  )}
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>

@@ -1,239 +1,217 @@
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { MapPin, Mail, Phone, Globe, Send } from "lucide-react";
+import * as z from "zod/v4";
+import { Mail, Phone, Globe, Send, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
-
-const formSchema = z.object({
-  name: z.string().min(2, "Name is required"),
-  company: z.string().min(2, "Company name is required"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(5, "Phone number is required"),
+const schema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  company: z.string().min(1, "Company name is required"),
+  email: z.string().email("Please enter a valid email"),
+  phone: z.string().min(7, "Please enter a valid phone number"),
   service: z.string().min(1, "Please select a service"),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
-export function Contact() {
-  const { toast } = useToast();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      company: "",
-      email: "",
-      phone: "",
-      service: "",
-      message: "",
-    },
-  });
+type FormData = z.infer<typeof schema>;
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast({
-      title: "Message Sent",
-      description: "We've received your inquiry and will contact you shortly.",
-    });
-    form.reset();
-  }
+export function Contact() {
+  const [submitted, setSubmitted] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({ resolver: zodResolver(schema) });
+
+  const onSubmit = async (_data: FormData) => {
+    await new Promise((r) => setTimeout(r, 800));
+    setSubmitted(true);
+  };
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden bg-background">
-      <div className="absolute left-0 bottom-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none translate-y-1/2 -translate-x-1/2" />
-      
-      <div className="container px-4 md:px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16">
+    <section id="contact" className="py-20 md:py-28 bg-[#050816] relative overflow-hidden">
+      <div
+        className="absolute inset-0 opacity-[0.025]"
+        style={{
+          backgroundImage: "linear-gradient(rgba(30,167,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(30,167,255,1) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+      <div className="absolute top-1/2 right-0 -translate-y-1/2 w-96 h-96 bg-[#1EA7FF] opacity-[0.04] blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="container mx-auto px-4 md:px-8 lg:px-12 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+          {/* Left: Info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold tracking-widest text-primary uppercase mb-3">Get In Touch</h2>
-            <h3 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-6">
-              LET'S BUILD SUCCESS TOGETHER
-            </h3>
-            <p className="text-muted-foreground text-lg mb-10 leading-relaxed">
-              We value the trust of our clients and partners and remain dedicated to delivering superior services with passion and integrity.
+            <div className="flex items-center gap-4 mb-4">
+              <div className="h-px w-12 bg-[#1EA7FF]" />
+              <span className="text-[#1EA7FF] text-xs font-bold tracking-[0.25em] uppercase">Contact Us</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold font-display text-white leading-tight mb-4">
+              Let's Build Success<br />
+              <span className="text-[#1EA7FF]">Together</span>
+            </h2>
+            <p className="text-[#E5E7EB]/55 text-sm md:text-base leading-relaxed mb-10">
+              We value the trust of our clients and partners and remain dedicated to delivering superior services with passion and integrity. Reach out today.
             </p>
 
-            <div className="space-y-8">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                  <Mail size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-foreground mb-1">Email Us</h4>
-                  <a href="mailto:info@rahmanianexus.com" className="text-muted-foreground hover:text-primary transition-colors">
-                    info@rahmanianexus.com
+            <div className="space-y-4">
+              {[
+                { icon: Mail, label: "Email", value: "info@rahmanianexus.com", href: "mailto:info@rahmanianexus.com" },
+                { icon: Phone, label: "Phone", value: "+966 55 528 5235", href: "tel:+966555285235" },
+                { icon: Globe, label: "Website", value: "www.rahmanianexus.com", href: "https://www.rahmanianexus.com" },
+              ].map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={i}
+                    href={item.href}
+                    className="flex items-center gap-4 p-4 border border-[#1EA7FF]/10 bg-[#0B1220] rounded-sm hover:border-[#1EA7FF]/35 transition-all group"
+                    data-testid={`link-contact-${item.label.toLowerCase()}`}
+                  >
+                    <div className="w-10 h-10 bg-[#1EA7FF]/10 rounded-sm flex items-center justify-center text-[#1EA7FF] group-hover:bg-[#1EA7FF]/20 transition-colors shrink-0">
+                      <Icon size={18} />
+                    </div>
+                    <div>
+                      <div className="text-[#E5E7EB]/40 text-xs uppercase tracking-wider mb-0.5">{item.label}</div>
+                      <div className="text-white text-sm font-medium">{item.value}</div>
+                    </div>
                   </a>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                  <Globe size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-foreground mb-1">Website</h4>
-                  <a href="https://www.rahmanianexus.com" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                    www.rahmanianexus.com
-                  </a>
-                </div>
-              </div>
+                );
+              })}
+            </div>
 
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                  <MapPin size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-foreground mb-1">Location</h4>
-                  <span className="text-muted-foreground">Saudi Arabia</span>
-                </div>
-              </div>
+            {/* Location note */}
+            <div className="mt-6 p-4 border border-[#1EA7FF]/10 bg-[#0B1220] rounded-sm">
+              <div className="text-[#1EA7FF] text-xs uppercase tracking-wider mb-1 font-bold">Operating Region</div>
+              <div className="text-white font-medium text-sm">Kingdom of Saudi Arabia</div>
+              <div className="text-[#E5E7EB]/40 text-xs mt-1">Serving all major industrial cities and project sites across the Kingdom</div>
             </div>
           </motion.div>
 
+          {/* Right: Form */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="bg-card border border-border p-8 rounded-2xl shadow-xl relative"
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full pointer-events-none" />
-            <h3 className="text-2xl font-display font-bold text-foreground mb-6">Request a Consultation</h3>
-            
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="John Doe" {...field} className="bg-background" data-testid="input-contact-name" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="company"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Company</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Acme Corp" {...field} className="bg-background" data-testid="input-contact-company" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+            {submitted ? (
+              <div className="h-full flex flex-col items-center justify-center text-center py-16 border border-[#1EA7FF]/15 bg-[#0B1220] rounded-sm">
+                <div className="w-16 h-16 bg-[#1EA7FF]/10 rounded-sm flex items-center justify-center text-[#1EA7FF] mb-6">
+                  <CheckCircle2 size={32} />
                 </div>
-                
+                <h3 className="text-white font-bold font-display text-xl mb-2">Message Sent!</h3>
+                <p className="text-[#E5E7EB]/55 text-sm max-w-xs">Our team will get back to you within 24 hours.</p>
+              </div>
+            ) : (
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="border border-[#1EA7FF]/15 bg-[#0B1220] rounded-sm p-6 md:p-8 space-y-5"
+                data-testid="form-contact"
+              >
+                <h3 className="font-bold font-display text-white text-lg uppercase tracking-wide mb-2">Send a Message</h3>
+
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input placeholder="john@example.com" type="email" {...field} className="bg-background" data-testid="input-contact-email" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Phone</FormLabel>
-                        <FormControl>
-                          <Input placeholder="+966 5X XXX XXXX" {...field} className="bg-background" data-testid="input-contact-phone" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <div>
+                    <label className="block text-xs text-[#E5E7EB]/50 uppercase tracking-wider mb-1.5 font-medium">Full Name *</label>
+                    <input
+                      {...register("name")}
+                      placeholder="John Smith"
+                      data-testid="input-name"
+                      className="w-full bg-[#050816] border border-[#1EA7FF]/15 text-white placeholder-[#E5E7EB]/25 text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-[#1EA7FF]/50 transition-colors"
+                    />
+                    {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>}
+                  </div>
+                  <div>
+                    <label className="block text-xs text-[#E5E7EB]/50 uppercase tracking-wider mb-1.5 font-medium">Company *</label>
+                    <input
+                      {...register("company")}
+                      placeholder="Your Company"
+                      data-testid="input-company"
+                      className="w-full bg-[#050816] border border-[#1EA7FF]/15 text-white placeholder-[#E5E7EB]/25 text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-[#1EA7FF]/50 transition-colors"
+                    />
+                    {errors.company && <p className="text-red-400 text-xs mt-1">{errors.company.message}</p>}
+                  </div>
                 </div>
 
-                <FormField
-                  control={form.control}
-                  name="service"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Service Interest</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="bg-background" data-testid="select-contact-service">
-                            <SelectValue placeholder="Select a service" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="manpower">Manpower Supply</SelectItem>
-                          <SelectItem value="equipment">Equipment Rental</SelectItem>
-                          <SelectItem value="transport">Car Rental & Transport</SelectItem>
-                          <SelectItem value="hospitality">Hospitality Services</SelectItem>
-                          <SelectItem value="industrial">Industrial Solutions</SelectItem>
-                          <SelectItem value="business">Business Support</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs text-[#E5E7EB]/50 uppercase tracking-wider mb-1.5 font-medium">Email *</label>
+                    <input
+                      {...register("email")}
+                      type="email"
+                      placeholder="email@company.com"
+                      data-testid="input-email"
+                      className="w-full bg-[#050816] border border-[#1EA7FF]/15 text-white placeholder-[#E5E7EB]/25 text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-[#1EA7FF]/50 transition-colors"
+                    />
+                    {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
+                  </div>
+                  <div>
+                    <label className="block text-xs text-[#E5E7EB]/50 uppercase tracking-wider mb-1.5 font-medium">Phone *</label>
+                    <input
+                      {...register("phone")}
+                      type="tel"
+                      placeholder="+966 5X XXX XXXX"
+                      data-testid="input-phone"
+                      className="w-full bg-[#050816] border border-[#1EA7FF]/15 text-white placeholder-[#E5E7EB]/25 text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-[#1EA7FF]/50 transition-colors"
+                    />
+                    {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
+                  </div>
+                </div>
 
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Message</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Tell us about your project requirements..." 
-                          className="min-h-[120px] bg-background resize-y" 
-                          {...field} 
-                          data-testid="textarea-contact-message"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div>
+                  <label className="block text-xs text-[#E5E7EB]/50 uppercase tracking-wider mb-1.5 font-medium">Service Interest *</label>
+                  <select
+                    {...register("service")}
+                    data-testid="select-service"
+                    className="w-full bg-[#050816] border border-[#1EA7FF]/15 text-white text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-[#1EA7FF]/50 transition-colors appearance-none"
+                  >
+                    <option value="" className="bg-[#050816]">Select a service…</option>
+                    <option value="manpower" className="bg-[#050816]">Manpower Supply</option>
+                    <option value="equipment" className="bg-[#050816]">Equipment Rental</option>
+                    <option value="transport" className="bg-[#050816]">Car Rental & Transport</option>
+                    <option value="hospitality" className="bg-[#050816]">Hospitality Services</option>
+                    <option value="industrial" className="bg-[#050816]">Industrial / Petro Services</option>
+                    <option value="business" className="bg-[#050816]">Business Support</option>
+                  </select>
+                  {errors.service && <p className="text-red-400 text-xs mt-1">{errors.service.message}</p>}
+                </div>
 
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 text-md mt-2" data-testid="button-contact-submit">
-                  Send Message
-                  <Send className="ml-2 h-4 w-4" />
-                </Button>
+                <div>
+                  <label className="block text-xs text-[#E5E7EB]/50 uppercase tracking-wider mb-1.5 font-medium">Message *</label>
+                  <textarea
+                    {...register("message")}
+                    rows={4}
+                    placeholder="Describe your project requirements…"
+                    data-testid="textarea-message"
+                    className="w-full bg-[#050816] border border-[#1EA7FF]/15 text-white placeholder-[#E5E7EB]/25 text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-[#1EA7FF]/50 transition-colors resize-none"
+                  />
+                  {errors.message && <p className="text-red-400 text-xs mt-1">{errors.message.message}</p>}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  data-testid="button-submit"
+                  className="w-full flex items-center justify-center gap-2 py-4 bg-[#1EA7FF] hover:bg-[#0084FF] disabled:opacity-60 text-white font-bold text-sm tracking-widest uppercase rounded-sm transition-all shadow-[0_0_20px_rgba(30,167,255,0.25)] hover:shadow-[0_0_30px_rgba(30,167,255,0.4)]"
+                >
+                  {isSubmitting ? "Sending…" : (
+                    <>
+                      <Send size={15} />
+                      Send Message
+                    </>
+                  )}
+                </button>
               </form>
-            </Form>
+            )}
           </motion.div>
         </div>
       </div>
