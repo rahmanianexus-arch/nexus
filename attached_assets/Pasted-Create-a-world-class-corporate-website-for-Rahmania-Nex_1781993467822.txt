@@ -1,0 +1,261 @@
+Create a world-class corporate website for Rahmania Nexus LLC.
+
+Company Name:
+Rahmania Nexus LLC
+
+Website:
+www.rahmanianexus.com
+
+Email:
+info@rahmanianexus.com
+
+Industry:
+Integrated Business Solutions
+
+Brand Personality:
+Premium
+Modern
+Corporate
+Trustworthy
+Professional
+Saudi Market Focused
+
+Design Style:
+
+Blend of Stripe, Linear, Aramco, Caterpillar and modern SaaS design.
+
+Ultra-clean layout.
+
+Large typography.
+
+Strong visual hierarchy.
+
+Glassmorphism effects.
+
+Soft shadows.
+
+Premium gradients.
+
+Fully responsive.
+
+Mobile-first.
+
+Fast loading.
+
+SEO optimized.
+
+Color Palette:
+
+Primary Blue: #1EA7FF
+
+Dark Navy: #0B1220
+
+Deep Black: #050816
+
+Silver Gray: #E5E7EB
+
+White: #FFFFFF
+
+Use blue gradients throughout:
+
+linear-gradient(
+135deg,
+#1EA7FF 0%,
+#0084FF 100%
+)
+
+Typography:
+
+Headings:
+Space Grotesk
+
+Body:
+Inter
+
+Website Structure:
+
+1. Hero Section
+
+Headline:
+
+Powering Industries Through People, Transport & Smart Solutions.
+
+Subheadline:
+
+Rahmania Nexus LLC delivers integrated workforce, transport, logistics, hospitality and business support solutions across Saudi Arabia.
+
+CTA:
+
+Get Free Consultation
+
+View Services
+
+Background:
+
+Animated blue gradient
+
+Floating industrial shapes
+
+Glass effects
+
+2. About Us
+
+Professional company overview.
+
+Mission.
+
+Vision.
+
+Core values.
+
+3. Why Choose Rahmania Nexus
+
+Experienced Workforce
+
+Reliable Transport
+
+Fast Response
+
+Saudi Compliance
+
+24/7 Support
+
+Safety First
+
+4. Services Section
+
+Manpower Supply
+
+Transport Solutions
+
+Car Rental
+
+Logistics Support
+
+Hospitality Services
+
+Business Support Services
+
+Industrial Solutions
+
+Each service should have:
+
+Icon
+
+Description
+
+Features
+
+CTA
+
+5. Statistics Section
+
+5000+
+
+Workforce Deployed
+
+100+
+
+Vehicles
+
+20+
+
+Projects
+
+100%
+
+Client Satisfaction
+
+Animated counters.
+
+6. Industries We Serve
+
+Oil & Gas
+
+Construction
+
+Infrastructure
+
+Manufacturing
+
+Hospitality
+
+Facility Management
+
+Industrial Projects
+
+7. Project Showcase
+
+Premium cards.
+
+Case-study style layout.
+
+8. CEO Message
+
+Professional CEO section.
+
+Quote block.
+
+Modern portrait placeholder.
+
+9. Testimonials
+
+Corporate client reviews.
+
+10. Contact Section
+
+Phone
+
+Email
+
+Website
+
+Contact form
+
+Google map area
+
+11. Footer
+
+Company links
+
+Services
+
+Social media
+
+Quick contact
+
+Copyright
+
+Extra Features:
+
+Dark Mode
+
+Light Mode
+
+Sticky Header
+
+Mega Menu
+
+Smooth Animations
+
+Framer Motion
+
+GSAP Effects
+
+SEO Schema
+
+Open Graph Tags
+
+Structured Data
+
+Next.js 15 Ready
+
+TypeScript Ready
+
+Tailwind CSS Ready
+
+Vercel Ready
+
+Production Ready
+
+Generate complete enterprise-grade website design with premium UX and conversion-focused layout.

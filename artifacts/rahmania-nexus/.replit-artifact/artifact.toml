@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Rahmania Nexus LLC"
+version = "1.0.0"
+id = "artifacts/rahmania-nexus"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21365
+
+[services.development]
+run = "pnpm --filter @workspace/rahmania-nexus run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/rahmania-nexus", "run", "build" ]
+publicDir = "artifacts/rahmania-nexus/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21365"
+BASE_PATH = "/"
