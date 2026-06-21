@@ -65,7 +65,7 @@ export function Contact() {
             <div className="space-y-4">
               {[
                 { icon: Mail, label: "Email", value: "info@rahmanianexus.com", href: "mailto:info@rahmanianexus.com" },
-                { icon: Phone, label: "Phone", value: "+966 55 528 5235", href: "tel:+966555285235" },
+          
                 { icon: Globe, label: "Website", value: "www.rahmanianexus.com", href: "https://www.rahmanianexus.com" },
               ].map((item, i) => {
                 const Icon = item.icon;

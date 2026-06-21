@@ -29,7 +29,10 @@ export function Footer() {
             <h3 className="text-white font-bold font-display text-xl md:text-2xl uppercase tracking-wide">
               Ready to Power Your Next Project?
             </h3>
-            <p className="text-white/80 text-sm mt-1">Reliable Workforce. Stronger Businesses. Get a free consultation today.</p>
+            <p className="text-white/80 text-sm mt-1">
+              Reliable Workforce. Stronger Businesses. Get a free consultation
+              today.
+            </p>
           </div>
           <a
             href="#contact"
@@ -47,17 +50,29 @@ export function Footer() {
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-3 mb-5">
-              <img src="/rahmania-nexus-logo.jpeg" alt="Rahmania Nexus" className="h-10 w-auto object-contain rounded-sm" />
+              <img
+                src="/rahmania-nexus-logo.jpeg"
+                alt="Rahmania Nexus"
+                className="h-10 w-auto object-contain rounded-sm"
+              />
               <div>
-                <div className="text-white font-bold font-display text-sm uppercase tracking-widest">Rahmania Nexus</div>
-                <div className="text-[#1EA7FF] text-[9px] tracking-widest uppercase">LLC</div>
+                <div className="text-white font-bold font-display text-sm uppercase tracking-widest">
+                  Rahmania Nexus
+                </div>
+                <div className="text-[#1EA7FF] text-[9px] tracking-widest uppercase">
+                  LLC
+                </div>
               </div>
             </div>
             <p className="text-[#E5E7EB]/45 text-xs leading-relaxed mb-5">
-              Saudi-based integrated solutions in Manpower Supply, Equipment Rental, Industrial Trading, Petro Services and Hospitality Services.
+              Saudi-based integrated solutions in Manpower Supply, Equipment
+              Rental, Industrial Trading, Petro Services and Hospitality
+              Services.
             </p>
             <p className="text-[#1EA7FF] text-xs font-bold uppercase tracking-[0.2em]">
-              Reliable Workforce.<br />Stronger Businesses.
+              Reliable Workforce.
+              <br />
+              Stronger Businesses.
             </p>
 
             <div className="flex items-center gap-3 mt-5">
@@ -131,9 +146,17 @@ export function Footer() {
             </h4>
             <div className="space-y-4">
               {[
-                { icon: Mail, text: "info@rahmanianexus.com", href: "mailto:info@rahmanianexus.com" },
-                { icon: Phone, text: "+966 55 528 5235", href: "tel:+966555285235" },
-                { icon: Globe, text: "www.rahmanianexus.com", href: "https://www.rahmanianexus.com" },
+                {
+                  icon: Mail,
+                  text: "info@rahmanianexus.com",
+                  href: "mailto:info@rahmanianexus.com",
+                },
+
+                {
+                  icon: Globe,
+                  text: "www.rahmanianexus.com",
+                  href: "https://www.rahmanianexus.com",
+                },
               ].map((c, i) => {
                 const Icon = c.icon;
                 return (
@@ -143,7 +166,10 @@ export function Footer() {
                     className="flex items-start gap-3 text-[#E5E7EB]/45 hover:text-[#1EA7FF] transition-colors group"
                     data-testid={`link-footer-contact-${i}`}
                   >
-                    <Icon size={14} className="mt-0.5 shrink-0 text-[#1EA7FF]/40 group-hover:text-[#1EA7FF] transition-colors" />
+                    <Icon
+                      size={14}
+                      className="mt-0.5 shrink-0 text-[#1EA7FF]/40 group-hover:text-[#1EA7FF] transition-colors"
+                    />
                     <span className="text-xs">{c.text}</span>
                   </a>
                 );
@@ -159,9 +185,7 @@ export function Footer() {
           <p className="text-[#E5E7EB]/30 text-xs">
             © {year} Rahmania Nexus LLC. All rights reserved.
           </p>
-          <p className="text-[#E5E7EB]/20 text-xs">
-            Kingdom of Saudi Arabia
-          </p>
+          <p className="text-[#E5E7EB]/20 text-xs">Kingdom of Saudi Arabia</p>
         </div>
       </div>
     </footer>
